@@ -9,16 +9,25 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question("Please enter something: ", (userInput) => {
-  const boxenOptions = {
-    padding: 1,
-    margin: 1,
-    borderStyle: "round",
-    borderColor: "green",
-    backgroundColor: "#555555",
-  };
-  const msg = chalk.white.bold(userInput);
-  const msgBox = boxen(msg, boxenOptions);
-  console.log(msgBox);
-  rl.close();
-});
+function getUserInput() {
+  rl.question("Please enter something (Ctrl + D to exit): ", (userInput) => {
+    if (userInput) {
+      const boxenOptions = {
+        padding: 1,
+        margin: 1,
+        borderStyle: "round",
+        borderColor: "green",
+        backgroundColor: "#555555",
+      };
+      const msg = chalk.white.bold(userInput);
+      const msgBox = boxen(msg, boxenOptions);
+      console.log(`You entered: ${userInput}`);
+      console.log(msgBox);
+      getUserInput(); // Recursively call the function for continuous input.
+    } else {
+      rl.close();
+    }
+  });
+}
+
+getUserInput();
